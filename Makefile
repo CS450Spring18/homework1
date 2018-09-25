@@ -1,26 +1,28 @@
-runP1:
-	gcc p1.c -o p1.o
-	echo "make sure to kill these processes"
-	./p1.o & ./p1.o &
+CFLAGS=--std=c++11
 
-runP2:
-	gcc p2.c -o p2.o
-	./p2.o
+p1.x:
+	gcc p1.c -o p1.x
 
-runP3:
-	g++ p3.cpp -o p3.o
-	./p3.o
+p2.x:
+	gcc p2.c -o p2.x
 
-runP4:
-	g++ p4.cpp -o p4.o
-	./p4.o
+p3.x:
+	g++ $(CFLAGS) p3.cpp -o p3.x
 
-runP4PB:
-	g++ p4_pb.cpp -o p4_pb.o
-	./p4_pb.o vdso.data vdso
+p3.s: 
+	g++ $(CFLAGS) -S p3.cpp -o p3.s
 
-dumpVDSOTable: runP4PB
+p4.x:
+	g++ $(CFLAGS) p4.cpp -o p4.x
+
+p4_pb.x:
+	g++ $(CFLAGS) p4_pb.cpp -o p4_pb.x
+
+dumpVDSOTable: p4_pb.x
+	./p4_pb.x vdso.data vdso
 	objdump -T vdso.data
 
 clean:
-	rm *.o*
+	rm *.x *.s
+
+all: p1.x p2.x p3.x p3.s p4.x p4_pb.x dumpVDSOTable
