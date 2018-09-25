@@ -11,7 +11,6 @@ volatile sig_atomic_t alarm_flag = 0;
 /* Prototype for signal handler */
 void alarm_handler (int sig) {
     alarm_flag = sig;
-    printf("We are in alarm handler");
 }
 
 
